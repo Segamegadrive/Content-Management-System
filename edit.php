@@ -36,7 +36,7 @@ if(!isset($_POST['submit'])){
     </label>
     <input type = "text" name = "stock" id = "stock" value = "<?php echo $product['stock']; ?>" /><br>
 
-    <img src="<?php echo $product['product_img_name']; ?>" > 
+    <!--<img src="<?php //echo $product['product_img_name']; ?>" > -->
 			<!--Image:<input type="file" name="filename" size="10" />-->
     <label>Image(product_img_name):
     </label>
@@ -52,18 +52,27 @@ if(!isset($_POST['submit'])){
 </fieldset>	
 
 <?php
-
-if(isset($_POST['submit'])){
+error_reporting(0);
+$UploadDirectory    = 'uploads/';
+$SuccessRedirect    = 'index.php';
+    
         $name = $_FILES['mFile']['name'];
         $temp = $_FILES['mFile']['tmp_name'];
         $size = $_FILES['mFile']['size'];
+
+if(isset($_POST['submit'])){
+        
         // $query = "INSERT INTO Product VALUES $name;";
-        $image = "uploads/".$name;
-        move_uploaded_file($temp, $image);
-		$u = "UPDATE products SET product_code = '$_POST[product_code]', product_img_name = '$image', product_name = '$_POST[mName]', product_desc = '$_POST[product_desc]', price = '$_POST[price]', stock = '$_POST[stock]' WHERE ID = $_POST[id]";
-		$mysqli->query($u);
-		echo "Product has been edited";
-		header ("Location: index.php");
+        //$image = "uploads/".$name;
+        if(move_uploaded_file($temp, $UploadDirectory . $name)){
+
+            $u = "UPDATE products SET product_code = '$_POST[product_code]', product_img_name = '$name', product_name = '$_POST[mName]', product_desc = '$_POST[product_desc]', price = '$_POST[price]', stock = '$_POST[stock]' WHERE ID = $_POST[id]";
+            $mysqli->query($u);
+            echo "Product has been edited";
+            header ("Location: index.php");
+
+        }
+		
 	}
 
 ?>

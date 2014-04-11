@@ -19,7 +19,7 @@ include_once("connect.php");
     <?php
     //current URL of the Page. cart_update.php redirects back to this URL
 	//$current_url = base64_encode($url="http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
-    $current_url = base64_encode($_SERVER['localhost'] . $_SERVER['REQUEST_URI']);
+    $current_url = base64_encode($_SERVER['REQUEST_URI']);
     
 	$results = $mysqli->query("SELECT * FROM products ORDER BY id ASC");
     if ($results) { 
@@ -29,6 +29,8 @@ include_once("connect.php");
         {
 			echo '<div class="product">'; 
             echo '<form method="post" action="cart_update.php">';
+            //echo '<div class="product-thumb"><img src='.$obj->product_img_name.'></div>';
+
 			echo '<div class="product-thumb"><img src="uploads/'.$obj->product_img_name.'"></div>';
             echo '<div class="product-content"><h3>'.$obj->product_name.'</h3>';
             echo '<div class="product-desc">'.$obj->product_desc.'</div>';
@@ -38,11 +40,9 @@ include_once("connect.php");
             echo 'Qty <input type="text" name="product_qty" value="1" size="3" />';
 			echo '<button class="add_to_cart">Add To Cart</button>';
 			echo '</div></div>';
-
            
             //echo "<a href = \"delete.php?id=" . $obj->id . "\">Delete</a>";
-            
-
+        
             echo '<input type="hidden" name="product_code" value="'.$obj->product_code.'" />';
             echo '<input type="hidden" name="type" value="add" />';
 			echo '<input type="hidden" name="return_url" value="'.$current_url.'" />';

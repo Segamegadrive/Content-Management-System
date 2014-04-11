@@ -13,11 +13,12 @@ include_once("connect.php");
  <h1>Yours chosen list of products</h1>
  <div class="view-cart">
  	<?php
-    $current_url = base64_encode($url="http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+    //$current_url = base64_encode($url="http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+    $current_url = base64_encode($_SERVER['REQUEST_URI']);
 	if(isset($_SESSION["products"]))
     {-
 	    $total = 0;
-		echo '<form method="post" action="paypal-express-checkout/process.php">';
+		//echo '<form method="post" action="paypal-express-checkout/process.php">';
 		echo '<ul>';
 		$cart_items = 0;
 		foreach ($_SESSION["products"] as $cart_itm)
