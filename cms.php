@@ -93,7 +93,7 @@ include_once("connect.php");
 			echo '</div></div>';
 
            
-            echo "<a href = \"delete.php?id=" . $obj->id . "\">Delete</a>";
+            echo "<a href = \"delete.php?id=" . $obj->id . "&picture=" . $obj->product_img_name. "\">Delete</a>";
             echo "<span>&nbsp;&nbsp;&nbsp;</span>";
             echo "<a href = \"edit.php?id=" . $obj->id . "\">Edit</a>";
             

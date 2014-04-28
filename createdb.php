@@ -65,11 +65,7 @@ $query = "CREATE TABLE IF NOT EXISTS `products`(
             `uploaded_date` datetime NOT NULL,
             PRIMARY KEY (`id`),
             UNIQUE KEY `product_code` (`product_code`),
-            cat_id int(11) NOT NULL,
-            FOREIGN KEY(cat_id) REFERENCES
-            category(cat_id)
-          ) AUTO_INCREMENT=1 ;
-          ";
+            cat_id int(11) NOT NULL)";
 
 if($mysqli->query($query)){
   echo "Products table has been successfully created!";
@@ -161,12 +157,7 @@ $query = "CREATE TABLE IF NOT EXISTS `order_details`(
               `subtotal` decimal(10,2) NOT NULL,
               PRIMARY KEY(orderdetails_id),
               `product_id` int(11) NOT NULL,
-              `customer_id` int(11) NOT NULL,
-              FOREIGN KEY(customer_id) REFERENCES
-              customer(customer_id),
-              FOREIGN KEY(product_id) REFERENCES
-              products(id));
-              ";
+              `customer_id` int(11) NOT NULL);";
 
 if($mysqli->query($query)){
   echo "order_details table has been successfully created!";
