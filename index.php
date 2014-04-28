@@ -9,16 +9,65 @@ include_once("connect.php");
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>E-commerce Site To Sell Prodcuts Online</title>
 <link href="style.css" rel="stylesheet" type="text/css">
+
+<script type ="text/javascript">
+        var image1 = new Image()
+            image1.src = "images/img_slider1.png"
+        var image2 = new Image()
+            image2.src ="images/img_slider2.png"
+        var image3 = new Image()
+            image3.src = "images/img_slider3.png"
+    </script>
+
 </head>
 
 <body>
 <div id="products-wrapper">
-<?php include_once("nav.php"); ?>
-    <h1>Products</h1>
+    <header>
+        <?php include_once("nav.php"); ?>
+        <?php include_once("display_added_product_number.php"); ?>
+    </header>
+
+    <br /><br /><br />
+
+<!---to display products according to category-->
+
+<?php
+$current_url = base64_encode($_SERVER['REQUEST_URI']);
+$result = $mysqli->query("SELECT * FROM category");
+while ($row = $result->fetch_object()) {
+     echo '<div class = "category"><ul><li><a href = "display_category_products.php?cat_id='.$row->cat_id.'">'.$row->category_name.'</a></ul></li></div>';
+ }
+
+?>
+
+
+
+<br /><br /><br />
+
+    <div class = "image_slider">
+        <img src = "images/img_slider1.png" id = "next" alt = "" />
+        <script type = "text/javascript">
+        var step = 1
+            function nextit(){
+                document.images.next.src = eval("image"+step+".src")
+                if (step<3)
+                step++
+                else
+                step = 1
+                setTimeout("nextit()", 2400)
+                }
+            nextit()
+    </script>
+
+
+    </div><!--image_slider end--><br><br />
+
+    
 	 <div class="products">
+        <!--<h2>Products Of The Day</h2>--> 
     <?php
-    //current URL of the Page. cart_update.php redirects back to this URL
-	//$current_url = base64_encode($url="http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+    
     $current_url = base64_encode($_SERVER['REQUEST_URI']);
     
 	$results = $mysqli->query("SELECT * FROM products ORDER BY id ASC");
@@ -27,63 +76,30 @@ include_once("connect.php");
         //fetch results set as object and output HTML
         while($obj = $results->fetch_object())
         {
+
 			echo '<div class="product">'; 
             echo '<form method="post" action="cart_update.php">';
             //echo '<div class="product-thumb"><img src='.$obj->product_img_name.'></div>';
 
-			echo '<div class="product-thumb"><img src="uploads/'.$obj->product_img_name.'"></div>';
-            echo '<div class="product-content"><h3>'.$obj->product_name.'</h3>';
+			echo '<div class="imagethumb"><a href = "display_each_product.php?id='.$obj->id.'"><img src="uploads/'.$obj->product_img_name.'"></a></div>';
+            echo '<div class="productdetailscontent"><h3>'.$obj->product_name.'</h3>';
             echo '<div class="product-desc">'.$obj->product_desc.'</div>';
-            echo '<div class="product-info">';
-			echo 'Price '.$currency.$obj->price.' | ';
+            echo '<br />';
+            echo '<div class="productprice">';
+			echo 'Price '.$currency.$obj->price;
             //echo 'Stock' .$stock.$obj->stock;
-            echo 'Qty <input type="text" name="product_qty" value="1" size="3" />';
-			echo '<button class="add_to_cart">Add To Cart</button>';
-			echo '</div></div>';
-           
-            //echo "<a href = \"delete.php?id=" . $obj->id . "\">Delete</a>";
-        
+			echo '</div></div>';      
             echo '<input type="hidden" name="product_code" value="'.$obj->product_code.'" />';
             echo '<input type="hidden" name="type" value="add" />';
 			echo '<input type="hidden" name="return_url" value="'.$current_url.'" />';
 
             echo '</form>';
-            echo '</div>';
-
-           
+            echo '</div>';  
         }
     
     }
     ?>
     </div>
-	
-	<div class="shopping-cart">
-<h2>Your Shopping Cart</h2>
-<?php
-if(isset($_SESSION["products"]))
-{
-    $total = 0;
-    echo '<ol>';
-    foreach ($_SESSION["products"] as $cart_itm)
-    {
-        echo '<li class="cart-itm">';
-        echo '<span class="remove-itm"><a href="cart_update.php?removep='.$cart_itm["code"].'&return_url='.$current_url.'">&times;</a></span>';
-        echo '<h3>'.$cart_itm["name"].'</h3>';
-        echo '<div class="p-code">P code : '.$cart_itm["code"].'</div>';
-        echo '<div class="p-qty">Qty : '.$cart_itm["qty"].'</div>';
-        echo '<div class="p-price">Price :'.$currency.$cart_itm["price"].'</div>';
-        echo '</li>';
-        $subtotal = ($cart_itm["price"]*$cart_itm["qty"]);
-        $total = ($total + $subtotal);
-    }
-    echo '</ol>';
-    echo '<span class="check-out-txt"><strong>Total : '.$currency.$total.'</strong> <a href="view_cart.php">Check-out!</a></span>';
-	echo '<span class="empty-cart"><a href="cart_update.php?emptycart=1&return_url='.$current_url.'">Empty Cart</a></span>';
-}else{
-    echo 'Your Cart is empty';
-}
-?>
-</div>
 
 </div>
 

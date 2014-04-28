@@ -1,3 +1,6 @@
+Use first one:
+1 ->
+
 CREATE TABLE IF NOT EXISTS `products` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `product_code` varchar(60) NOT NULL,
@@ -9,5 +12,82 @@ CREATE TABLE IF NOT EXISTS `products` (
   `file_size` int(11) NOT NULL,
   `uploaded_date` datetime NOT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `product_code` (`product_code`),
+  cat_id int(11) NOT NULL,
+  FOREIGN KEY(cat_id) REFERENCES
+  category(cat_id)
+) AUTO_INCREMENT=1 ;
+
+
+2 ->
+
+CREATE TABLE IF NOT EXISTS `products` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_code` varchar(60) NOT NULL,
+  `product_img_name` varchar(60) NOT NULL,
+  `product_name` varchar(60) NOT NULL,
+  `product_desc` tinytext NOT NULL,
+  `price` decimal(10,2) NOT NULL,
+  `stock` text NOT NULL,
+  `category` varchar(30) NOT NULL,
+  `file_size` int(11) NOT NULL,
+  `uploaded_date` datetime NOT NULL,
+  PRIMARY KEY (`id`),
   UNIQUE KEY `product_code` (`product_code`)
 ) AUTO_INCREMENT=1 ;
+
+
+
+3 -> Customer Table
+CREATE TABLE IF NOT EXISTS `customer`(
+`customer_id` int(11) NOT NULL AUTO_INCREMENT,
+`fname` varchar(40) NOT NULL,
+`mname` varchar(40) NOT NULL,
+`lname` varchar(40) NOT NULL,
+`phone` varchar(35) NOT NULL,
+`email` varchar(45) NOT NULL,
+`addressline1` varchar(50) NOT NULL,
+`adderssline2` varchar(50) NOT NULL,
+`town` varchar(45) NOT NULL,
+`city` varchar(45) NOT NULL,
+`postcode`varchar(10) NOT NULL,
+`country` varchar(40) NOT NULL,
+PRIMARY KEY(`customer_id`));
+
+
+4 -> Order Table
+
+CREATE TABLE IF NOT EXISTS `orders`(
+`order_id` int(11) NOT NULL AUTO_INCREMENT,
+`order_date` DATETIME NOT NULL,
+PRIMARY KEY(order_id),
+customer_id int(11)NOT NULL,
+FOREIGN KEY (customer_id) REFERENCES
+customer(customer_id));
+
+5 ->
+
+Order Details Table
+
+CREATE TABLE IF NOT EXISTS `order_details`(
+`orderdetails_id` int(11) NOT NULL AUTO_INCREMENT,
+`quantity` SMALLINT NOT NULL,
+`price` decimal(10,2) NOT NULL,
+`subtotal` decimal(10,2) NOT NULL,
+PRIMARY KEY(orderdetails_id),
+`product_id` int(11) NOT NULL,
+`customer_id` int(11) NOT NULL,
+FOREIGN KEY(customer_id) REFERENCES
+customer(customer_id),
+FOREIGN KEY(product_id) REFERENCES
+products(id));
+
+6-> Category Table
+
+
+CREATE TABLE IF NOT EXISTS `category`(
+`cat_id` int(11) NOT NULL AUTO_INCREMENT,
+`category_name` varchar(35) NOT NULL,
+PRIMARY KEY(cat_id));
+
+

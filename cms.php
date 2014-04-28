@@ -19,8 +19,6 @@ include_once("connect.php");
 
 <?php include_once("nav.php"); ?>
 
-
-
 <div id="products-wrapper">
 <fieldset><legend>Please enter product details</legend>
 <form action="insert.php" id="FileUploader" enctype="multipart/form-data" method="post" >
@@ -40,9 +38,23 @@ include_once("connect.php");
 
     <label>Stock:</label>
     <input type = "text" name = "stock" id = "stock" /><br>
+
+    <!--Displays the list of categories name list in drop box-->
+    
+    <label>Category:</label>
+    <select name = "category">
+        <?php
+            $results = $mysqli->query("SELECT * FROM category");
+            if($results){
+                while($catlist = $results->fetch_object()){
+                    echo '<option value = "'.$catlist->cat_id.'">'.$catlist->category_name.'</option>';
+                }
+            }
+        ?>
+    </select> <br />
     
     <label>Image(product_img_name):</label>
-    <input type="file" name="mFile" id="mFile" />
+    <input type="file" name="mFile" id="mFile" /><br>
     
     <button type="submit" class="red-button" id="uploadButton">Upload</button>
 

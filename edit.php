@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+
 include_once("connect.php");
 
 if(!isset($_POST['submit'])){
@@ -13,7 +13,7 @@ if(!isset($_POST['submit'])){
 
 <fieldset><legend><h2>Edit your product details here</h2></legend>
 <form action="<?php echo $_SERVER['PHP_SELF'];?>" id="FileUploader" enctype="multipart/form-data" method="post" >
-	<input type="hidden" name="submit" value="yes" />
+	
     
     <label>product_code:
     </label>
@@ -40,7 +40,7 @@ if(!isset($_POST['submit'])){
 			<!--Image:<input type="file" name="filename" size="10" />-->
     <label>Image(product_img_name):
     </label>
-    <input type="file" name="mFile" id="mFile" value = "<?php echo $product['product_img_name']; ?>" /><br>
+    <input type="file" name="mFile" id="mFile"  /><br>  
 
     <input type = "hidden" name = "id" value = "<?php echo $_GET['id']; ?>" /> 
 
@@ -53,25 +53,33 @@ if(!isset($_POST['submit'])){
 
 <?php
 error_reporting(0);
-$UploadDirectory    = 'uploads/';
-$SuccessRedirect    = 'index.php';
-    
-        $name = $_FILES['mFile']['name'];
-        $temp = $_FILES['mFile']['tmp_name'];
-        $size = $_FILES['mFile']['size'];
+//$UploadDirectory    = 'uploads/';
+//$SuccessRedirect    = 'index.php';
 
 if(isset($_POST['submit'])){
         
         // $query = "INSERT INTO Product VALUES $name;";
         //$image = "uploads/".$name;
-        if(move_uploaded_file($temp, $UploadDirectory . $name)){
+
+    if($_FILES['mFile']['name'] != ""){
+        $name = $_FILES['mFile']['name'];
+        $temp = $_FILES['mFile']['tmp_name'];
+        $size = $_FILES['mFile']['size'];
+        $directory = "uploads/".$name;
+        move_uploaded_file($temp, $directory);
 
             $u = "UPDATE products SET product_code = '$_POST[product_code]', product_img_name = '$name', product_name = '$_POST[mName]', product_desc = '$_POST[product_desc]', price = '$_POST[price]', stock = '$_POST[stock]' WHERE ID = $_POST[id]";
             $mysqli->query($u);
-            echo "Product has been edited";
-            header ("Location: index.php");
+        }
+        else
+        {
+             $u = "UPDATE products SET product_code = '$_POST[product_code]' , product_name = '$_POST[mName]', product_desc = '$_POST[product_desc]', price = '$_POST[price]', stock = '$_POST[stock]' WHERE ID = $_POST[id]";
+            $mysqli->query($u);
+            
 
         }
+        echo "Product has been edited";
+            header ("Location: index.php");
 		
 	}
 

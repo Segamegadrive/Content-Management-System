@@ -33,9 +33,10 @@ if($_POST)
 	$product_desc		= mysql_real_escape_string($_POST['product_desc']); // product description
 	$price				= mysql_real_escape_string($_POST['price']); // product price
     $stock              = mysql_real_escape_string($_POST['stock']); // stock level
+    $category           = mysql_real_escape_string($_POST['category']);//calls name = category from cms.php to post the chosen value/category from drop down box to insert into product table
     $ImageExt           = substr($FileName, strrpos($FileName, '.')); //file extension
     $FileType           = $_FILES['mFile']['type']; //file type
-    $FileSize           = $_FILES['mFile']["size"]; //file size
+    //$FileSize           = $_FILES['mFile']["size"]; //file size
     $RandNumber         = rand(0, 9999999999); //Random number to make each filename unique.
     $uploaded_date      = date("Y-m-d H:i:s");  
 
@@ -57,15 +58,11 @@ if($_POST)
     }
 
     
-    //File Title will be used as new File name
-    //$Newproduct_img_name = preg_replace(array('/s/', '/.[.]+/', '/[^w_.-]/'), array('_', '.', ''), strtolower($product_name));
-    //$Newproduct_img_name = $Newproduct_img_name.'_'.$RandNumber.$ImageExt;
-   //Rename and save uploded file to destination folder.
    if(move_uploaded_file($_FILES['mFile']["tmp_name"], $UploadDirectory . $product_img_name))
    {
         //connect & insert file record in database
    
-        $sql = "INSERT INTO products(product_code, product_img_name, product_name, product_desc, price, stock, file_size, uploaded_date) VALUES ('$product_code', '$product_img_name', '$product_name', '$product_desc', '$price', '$stock', '$FileSize','$uploaded_date')";
+        $sql = "INSERT INTO products(product_code, product_img_name, product_name, product_desc, price, stock, uploaded_date, cat_id) VALUES ('$product_code', '$product_img_name', '$product_name', '$product_desc', '$price', '$stock', '$uploaded_date', '$category')";
 		if (!mysqli_query($mysqli,$sql))
 		{
 			die('Error: ' . mysqli_error($mysqli));
