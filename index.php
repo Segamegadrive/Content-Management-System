@@ -87,8 +87,9 @@ while ($row = $result->fetch_object()) {
             echo '<br />';
             echo '<div class="productprice">';
 			echo 'Price '.$currency.$obj->price;
-            //echo 'Stock' .$stock.$obj->stock;
-			echo '</div></div>';      
+            echo '<div class = "stock">';
+            echo 'Stock:&nbsp' .$stock.$obj->stock;
+			echo '</div></div></div>';      
             echo '<input type="hidden" name="product_code" value="'.$obj->product_code.'" />';
             echo '<input type="hidden" name="type" value="add" />';
 			echo '<input type="hidden" name="return_url" value="'.$current_url.'" />';

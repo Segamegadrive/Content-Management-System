@@ -9,6 +9,7 @@
 		<li><a href = "cms.php">Add New Product</a></li>
 		<li><a href = "mybasket.php">My Basket<!--<div id = "mybasket"></div>--></a></li>
 		<li><a href = "add_category.php">Add Category</a></li>
+		<li><a href = "report.php">Report</a></li>
 	</ul>
 	 <!--<div id = "mybasket">My Basket</div>-->
 

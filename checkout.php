@@ -18,8 +18,6 @@ if(isset($_POST['country'])){
 	$country = mysql_real_escape_string($_POST['country']);
 	$order_date = date("Y-m-d H:i:s");
 
-	//$customer_id =
-
 	//Inserting customer details into customer table
 
 	$sql = "INSERT INTO customer(customer_id, title, fname, mname, lname, phone, email, addressline1, addressline2, town, city, postcode, country, orderdate) VALUES('', '$title', '$firstname', '$middlename', '$lastname', '$phone', '$email', '$addressline1', '$addressline2', '$town', '$city', '$postcode', '$country', '$order_date')";
@@ -34,9 +32,6 @@ if(isset($_POST['country'])){
 	}
 
 	$customerid = $mysqli->insert_id;
-
-
-
 
 	//Inserting Order deatils into order_details table
 	foreach($_SESSION["products"] as $product){
@@ -57,7 +52,15 @@ if(isset($_POST['country'])){
 		else{
 			echo "successfully Done!";
 		}
+
+		$results = $mysqli->query("SELECT stock FROM products WHERE product_code='$product_code' LIMIT 1");
+		$obj = $results->fetch_object();
+		$stock = $obj->stock - $quantity; //Update product's stock.
+		$results = $mysqli->query("UPDATE products SET stock = '$stock' WHERE product_code = '$product_code'");
+
 	}//for each end
+	session_destroy();
+	header("location: report.php");
 
 }
 

@@ -8,7 +8,7 @@
 <div id = "products-wrapper">
 
 	<header>
-		<?php include_once("nav.php") ?>;
+		<?php include_once("nav.php") ?>
 	</header> <br /><br /><br />
 <div class = "products">
 <?php
@@ -20,7 +20,8 @@ if(isset($_POST['submit'])){
 	$cat = $_POST['category'];
 	$sql = "INSERT INTO category (cat_id, category_name) VALUES ('', '$cat')";
 	if($result = $mysqli->query($sql)){
-		echo "category added successfully";}
+		echo "category added successfully";
+	}
 		else{
 			echo "Problem occured while adding category";
 	}

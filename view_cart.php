@@ -104,16 +104,7 @@ include_once("connect.php");
 		<input type = "submit" value = "Submit" />
 	</form>
 </fieldset>
-
-		
-
-
-
-
-
-
 <br />
-
 </div><!--product-wrapper end-->
 </body>
 </html>

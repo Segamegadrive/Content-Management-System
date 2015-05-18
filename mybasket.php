@@ -4,6 +4,7 @@ include_once("connect.php");
 ?>
 <html>
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>My Basket</title>
     <link href="style.css" rel="stylesheet" type="text/css">
 </head>
@@ -17,7 +18,9 @@ include_once("connect.php");
     </header>
 <br /><br /><br />
 <div class="shopping-cart">
+
 <h2>My Basket</h2>
+
 <?php
  $current_url = base64_encode($_SERVER['REQUEST_URI']);
 if(isset($_SESSION["products"]))
@@ -26,12 +29,17 @@ if(isset($_SESSION["products"]))
     echo '<ol>';
     foreach ($_SESSION["products"] as $cart_itm)
     {
+        $product_code = $cart_itm["code"];   
+        $result = $mysqli->query("SELECT id, product_img_name FROM products WHERE product_code = '$product_code' LIMIT 1"); // to display image. it is important to get id as well to retrieve image.
+        $obj = $result->fetch_object(); 
+
         echo '<li class="cart-itm">';
-        echo '<span class="remove-itm"><a href="cart_update.php?removep='.$cart_itm["code"].'&return_url='.$current_url.'">&times;</a></span>';
+        echo '<a href = "display_each_product.php?id='.$obj->id.'"><img src="uploads/'.$obj->product_img_name.'">';
+        echo '<span class="remove-itm"><a href="cart_update.php?removep='.$cart_itm["code"].'&return_url='.$current_url.'">Remove</a></span>';
         echo '<h3>'.$cart_itm["name"].'</h3>';
         echo '<div class="p-code">P code : '.$cart_itm["code"].'</div>';
-        echo '<div class="p-qty">Qty : '.$cart_itm["qty"].'</div>';
-        echo '<div class="p-price">Price :'.$currency.$cart_itm["price"].'</div>';
+        echo '<div class="p-qty">Qty:&nbsp;'.$cart_itm["qty"].'</div>';
+        echo '<div class="p-price">Price:&nbsp;'.$currency.$cart_itm["price"].'</div>';
         echo '</li>';
         $subtotal = ($cart_itm["price"]*$cart_itm["qty"]);
         $total = ($total + $subtotal);

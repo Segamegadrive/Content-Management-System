@@ -303,3 +303,11 @@ body{
 	float: left;
 	margin-right: 20px;
 }
+
+.stock{
+	background-color: none;
+	position: relative;
+	bottom: 42px;
+	font-size: 11px;
+	z-index: 2px;
+}
